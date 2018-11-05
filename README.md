@@ -6,4 +6,4 @@ with REST to build the View Layer.
 ## INSTALLATION + USAGE HINTS
 Simply run `npm install` on the cloned package.
 Once NPM finishes installing all the necessary Dependencies, run `npm run serve`
-That's all! Afterwards, you may want to navigate to `http:localhost:8080` - assuming that port is Free.
+That's all! Afterwards, you may want to navigate to `http://localhost:8080` - assuming that port is Free.
