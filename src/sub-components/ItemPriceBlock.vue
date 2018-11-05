@@ -1,6 +1,6 @@
 <template>
     <h3 class="pz-prod-head" :data-block-root="prodBlockRoot">
-        <span class="pz-head-title" :data-block-root="prodBlockRoot">{{ getActualPrice(prodItem) }}</span>
+        <span v-html="getActualPrice(prodItem)"></span>
     </h3>
 </template>
 
@@ -19,12 +19,21 @@
         methods: {
             getActualPrice(prodItem){
                 let actualPrice = 0.00;
-                if(prodItem.onSale){
+                let strSaleTag  = "";
+                let strikePrice = "";
+                if(parseInt(prodItem.onSale) === 1){
+                    strSaleTag  = "<span class='fa fa-tags'></span>&nbsp; ";
+                    strikePrice = "<small id='pz-norm-price-box-" + prodItem.productID +
+                                    "' class='pz-norm-price-box pz-strike' data-block-root='" + this.prodBlockRoot +"'>\n" +
+                                    prodItem.activeCurrency + ' ' + (ajaxFetch.number_format(parseFloat(prodItem.normalPrice), 2, '.', "'")) + "</small>";
                     actualPrice = prodItem.salePrice;
                 }else{
                     actualPrice = prodItem.normalPrice;
                 }
-                return prodItem.activeCurrency + ' ' + (ajaxFetch.number_format(parseFloat(actualPrice), 2, '.', "'"));
+                return "<span id='pz-price-box-" + this.prodItem.productID + "' class='pz-price-box' data-block-root='" + this.prodBlockRoot + "'>" +
+                        strSaleTag + prodItem.activeCurrency + ' ' + (ajaxFetch.number_format(parseFloat(actualPrice), 2, '.', "'")) + "</span>" +
+                        strikePrice;
+
             }
         },
 
