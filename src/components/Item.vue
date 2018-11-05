@@ -1,5 +1,5 @@
 <template>
-    <section  v-bind:class="getColumnClass()" v-if="wrapContent" style="min-height:520px;" >
+    <section  v-bind:class="getColumnClass()" v-if="wrapContent">
         <div class="pz-product-wrapper" :id="getBlockRootID(prodItem.productID)">
             <ItemTitleHeaderBlock :prodID="prodItem.productID"
                                   :prodTitle="prodItem.productTitle"
@@ -45,7 +45,6 @@
                               :prodBlockRoot="getBlockRootID(prodItem.productID, '#')"></ItemSocialsBlock>
 
             <itemImageBlock :prodItem="prodItem"
-                            :prodPixURI="restAccessURI + prodItem.productPix"
                             :prodPageURI="prodItem.vueRoute"
                             :prodBlockRoot="getBlockRootID(prodItem.productID, '#')"></itemImageBlock>
 
@@ -83,6 +82,13 @@
                 shoppingCartUrl : '/shopping-cart/basket',
                 restAccessURI : 'http://sim-rest.poiz.me/'
             };
+          },
+
+          mounted: function(){
+            sMeths.bindActionEvents();
+          },
+
+          created: function(){
           },
 
           methods : {

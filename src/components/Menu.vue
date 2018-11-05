@@ -60,7 +60,7 @@
         },
 
         watch: {
-            url: function (val) {
+            url: function () {
                 this.currentRoute =  this.$route.params.catID || 1;
                 this.$emit('currentRouteChanged', this.currentRoute);
             },

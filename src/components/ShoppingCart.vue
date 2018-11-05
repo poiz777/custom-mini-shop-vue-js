@@ -32,6 +32,8 @@
                         <div class="col-md-2">
                             <span class='fa fa-plus pz-add-to-cart-icon'
                                   v-bind:data-id='prodID'
+                                  v-bind:data-aid='orderData.aid'
+                                  v-bind:data-cid='orderData.cid'
                                   v-bind:data-price='orderData.price'
                                   v-bind:data-name='orderData.name'
                                   v-bind:data-currency='orderData.currency'
@@ -45,6 +47,8 @@
                                        v-bind:min='1'
                                        v-bind:max='orderData.qty'
                                        v-bind:data-id='prodID'
+                                       v-bind:data-aid='orderData.aid'
+                                       v-bind:data-cid='orderData.cid'
                                        v-bind:data-price='orderData.price'
                                        v-bind:data-name='orderData.name'
                                        v-bind:data-currency='orderData.currency'
@@ -53,6 +57,8 @@
                               </span>
                             <span class='fa fa-minus pz-delete-from-cart-icon'
                                   v-bind:data-id='prodID'
+                                  v-bind:data-aid='orderData.aid'
+                                  v-bind:data-cid='orderData.cid'
                                   v-bind:data-price='orderData.price'
                                   v-bind:data-name='orderData.name'
                                   v-bind:data-currency='orderData.currency'
@@ -61,6 +67,8 @@
                             ></span>
                             <span class='fa fa-trash pz-delete-all-icon'
                                   v-bind:data-id='prodID'
+                                  v-bind:data-aid='orderData.aid'
+                                  v-bind:data-cid='orderData.cid'
                                   v-bind:data-price='orderData.price'
                                   v-bind:data-name='orderData.name'
                                   v-bind:data-currency='orderData.currency'
@@ -115,9 +123,9 @@
             this.orderItemsCollection   = this.psm.get('poizShopApp', 'orderedItems');
 
 
-            for(let pid in this.orderItemsCollection){
-                this.currency   = (firstRun) ? this.orderItemsCollection[pid].currency : (!this.currency ? '' : this.currency);
-                this.lineTotal += parseFloat(this.orderItemsCollection[pid].total);
+            for(let aid in this.orderItemsCollection){
+                this.currency   = (firstRun) ? this.orderItemsCollection[aid].currency : (!this.currency ? '' : this.currency);
+                this.lineTotal += parseFloat(this.orderItemsCollection[aid].total);
                 firstRun = false;
             }
             this.lineTotal  = this.currency + ' ' + ajaxFetch.number_format(this.lineTotal,  2, '.', "'");
@@ -161,12 +169,12 @@
                 let index;
                 let cartItem        = null;
                 const mainParent    = dispatcher.parentsUntil('li').parent('li');
-                const pid           = dispatcher.attr('data-id');
+                const aid           = dispatcher.attr('data-aid');
 
                 let cartItems       = this.psm.get('poizShopApp', 'orderedItems');
                 if(cartItems){
                     for(index in cartItems){
-                        if(parseInt(pid) === parseInt(index)){
+                        if(parseInt(aid) === parseInt(index)){
                             cartItem    = cartItems[index];
                             break;
                         }

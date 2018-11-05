@@ -15,9 +15,7 @@ const app = new Vue({
     },
 
     created: function(){
-
     },
-
     watch: {
       '$route' (to) {
           this.ViewComponent = getRenderAbleComponent(router, to.path);

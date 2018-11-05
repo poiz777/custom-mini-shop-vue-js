@@ -94,13 +94,13 @@
                     return ajaxFetch.endPointBaseURL +  ajaxFetch.delItemEndPoint + prodItem.productAID  + '/'  + prodItem.productCID + '/'  + prodItem.productID + '/1';
                 },
                 getActualPrice(prodItem){
-                    let  actualPrice = (prodItem.onSale) ? prodItem.salePrice: prodItem.normalPrice;
+                    let  actualPrice = (parseInt(prodItem.onSale) === 1) ? prodItem.salePrice: prodItem.normalPrice;
                     return parseFloat(actualPrice);
                 },
-                getPreLoaderIcon(prodItem){
+                getPreLoaderIcon(){
                     return '';
                 },
-                getProcessor(prodItem){
+                getProcessor(){
                     return '';
                 }
 

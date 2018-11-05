@@ -1,9 +1,9 @@
 <template>
     <div class="container" >
-        <article class="pz-wrapper-block pz-col-12 pz-cue-box"   v-bind:key="getUniqueKey(pageData.productID)" >
+        <article class="pz-wrapper-block pz-col-12 pz-detail-wrapper"  v-bind:key="getUniqueKey(pageData.productID)" >
             <section class="">
                 <Menu></Menu>
-                <div v-bind:class="'col-md-7 pz-image-block'">
+                <div v-bind:class="'col-md-7 pz-image-block pz-detail-image-section'">
                     <app-item
                             :dataIndex="pageData.productID"
                             :key="getUniqueKey(pageData.productID)"
@@ -47,6 +47,10 @@
             };
         },
 
+        mounted: function(){
+            sMeths.bindActionEvents();
+        },
+
         created: function(){
             let self                = this;
             const parts     = this.currentRoute.split('/');
@@ -65,7 +69,11 @@
             }
         },
 
-        methods :  sMeths,
+        methods :  {
+            ...sMeths,
+            ...{
+            }
+        },
 
         computed: {
             colNum:{

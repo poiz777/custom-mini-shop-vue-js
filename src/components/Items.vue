@@ -52,7 +52,6 @@
           ...sMeths,
           ...{
               updateRoute: function(route) {
-                  console.log(route);
                   this.$emit('cidChanged', route);
               },
           }

@@ -20,6 +20,7 @@ export default {
     delClusterEndPoint  : '/delete_item_cluster/',
     contextPldEndPoint  : '/get_context_order_payload/',
     ajaxURI             : 'http://poiz.me/sim-rest/.poiz.pz/api',
+	restAccessURI       : 'http://sim-rest.poiz.me/',
 
     flatAjaxFetch: function(URL, payLoad, rqType, retType){
         rqType          = (undefined === rqType)    ? 'GET'   : rqType;
