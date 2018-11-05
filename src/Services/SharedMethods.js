@@ -4,21 +4,21 @@ import $ from "jquery";
 
 const GLOBAL_DATA   = {INITIATOR:null, TRASHED_AID:null,  BLOCK_ROOT:null, PROCESSOR: null, RESET_DATA: false};
 export default {
-    getColNum: function () {
-        return Math.abs(12 / this.colsPerRow);
-    },
-
-    getUniqueKey: function (keyID, length) {
-        length = (length === undefined) ? 8 : length;
-        let characters = '0123456789ABCDEF';
-        let randomString = '';
-
-        for (let i = 0; i < length; i++) {
-            randomString += characters[Math.floor((Math.random() * characters.length))];
-        }
-
-        return randomString + '-' + keyID;
-    },
+	getColNum: function () {
+		return Math.abs(12 / this.colsPerRow);
+	},
+	
+	getUniqueKey: function (keyID, length) {
+		length = (length === undefined) ? 8 : length;
+		let characters = '0123456789ABCDEF';
+		let randomString = '';
+		
+		for (let i = 0; i < length; i++) {
+			randomString += characters[Math.floor((Math.random() * characters.length))];
+		}
+		
+		return randomString + '-' + keyID;
+	},
 	
 	fetchQuantityTotalFromStore: function (pid, toFetch, addCurrency ) {
 		addCurrency                 = (addCurrency !== undefined) ? addCurrency : true;
@@ -39,22 +39,22 @@ export default {
 		
 		return returnVal;
 	},
-
-    addItemsToCart: function (e, add, qty) {
-        add = (add !== undefined) ? add : true;
-        qty = (add !== undefined) ? qty : undefined;
-        this.handleAddDeleteProcess(e, add, qty);
-    },
-
-    deleteItemsFromCart: function (e, add, qty) {
-        add = (add !== undefined) ? add : false;
-        qty = (add !== undefined) ? qty : undefined;
-        this.handleAddDeleteProcess(e, add, qty);
-    },
-
-    getColumnClass : function(){
-        return 'col-xs-12 ' + 'col-md-' + this.colNum + ' col-lg-'+ this.colNum;
-    },
+	
+	addItemsToCart: function (e, add, qty) {
+		add = (add !== undefined) ? add : true;
+		qty = (add !== undefined) ? qty : undefined;
+		this.handleAddDeleteProcess(e, add, qty);
+	},
+	
+	deleteItemsFromCart: function (e, add, qty) {
+		add = (add !== undefined) ? add : false;
+		qty = (add !== undefined) ? qty : undefined;
+		this.handleAddDeleteProcess(e, add, qty);
+	},
+	
+	getColumnClass : function(){
+		return 'col-xs-12 ' + 'col-md-' + this.colNum + ' col-lg-'+ this.colNum;
+	},
 	
 	handleAddDeleteProcess: function(e, add, qty){
 		let response        = null;
@@ -172,37 +172,35 @@ export default {
 				type    : "POST",
 				dataType: "JSON",
 			});
+			
 			ajaxRequest.
 			then(function(data, textStatus, jqXHR){
 				if(data){
-					let randVal = getUniqueKey(null, 6);
+					updateSegments(data);
+					let randVal         = getUniqueKey(null, 6);
 					const addIcon       = $(GLOBAL_DATA.BLOCK_ROOT).find('.pz-add-to-cart-icon');
 					const delIcon       = $(GLOBAL_DATA.BLOCK_ROOT).find('.pz-delete-from-cart-icon');
 					const price         = parseInt(data.onSale) === 1 ? data.salePrice : data.normalPrice;
 					const endPointAdd   = addIcon.attr('data-endpoint').replace(/(\/\d+)(\/\d+)(\/\d+)(\/[\d.]+)$/, '/' + data.productAID +'$2$3/' + price);
 					const endPointDel   = delIcon.attr('data-endpoint').replace(/(\/\d+)(\/\d+)(\/\d+)(\/[\d.]+)$/, '/' + data.productAID +'$2$3/' + price);
-					// console.log(GLOBAL_DATA);
-					addIcon .attr('data-endPoint', endPointAdd)
-							.attr("data-aid",  data.productAID)
-							.attr("data-price",  price)
-							.attr("data-thumb-url",  ajaxFetch.restAccessURI + data.productPix);
-					delIcon .attr('data-endPoint', endPointDel)
-							.attr("data-aid",  data.productAID)
-							.attr("data-price",  price)
-							.attr("data-thumb-url",  ajaxFetch.restAccessURI + data.productPix);
 					
-					$(GLOBAL_DATA.BLOCK_ROOT).find('.pz-prod-pix').fadeOut(500, function(){
-						$(this).attr('src', ajaxFetch.restAccessURI + data.productPix + '?nocache=' + randVal).fadeIn(500);
-					});
-					$(GLOBAL_DATA.BLOCK_ROOT).find('.pz-norm-price-box.pz-strike').fadeOut(500);
-					$(GLOBAL_DATA.BLOCK_ROOT).find('.pz-price-box').fadeOut(500, function(){
-						updateSegments(data);
-						$(this).html(data.activeCurrency + ' ' + ajaxFetch.number_format(price, 2, '.', "'")).fadeIn(500);
-						if(parseInt(data.onSale)){
-							$(this).html('<span class="fa fa-tags"></span>&nbsp;' + data.activeCurrency + ' ' + ajaxFetch.number_format(data.salePrice, 2, '.', "'")).fadeIn(500);
-							$(GLOBAL_DATA.BLOCK_ROOT).find('.pz-norm-price-box.pz-strike').text(data.activeCurrency + ' ' + ajaxFetch.number_format(data.normalPrice, 2, '.', "'")).fadeIn(500);
-						}
-					});
+					addIcon .attr('data-endPoint', endPointAdd)
+					.attr("data-aid",  data.productAID)
+					.attr("data-price",  price)
+					.attr("data-thumb-url",  ajaxFetch.restAccessURI + data.productPix);
+					delIcon .attr('data-endPoint', endPointDel)
+					.attr("data-aid",  data.productAID)
+					.attr("data-price",  price)
+					.attr("data-thumb-url",  ajaxFetch.restAccessURI + data.productPix);
+					
+					$(GLOBAL_DATA.BLOCK_ROOT).find('.pz-prod-pix').attr('src', ajaxFetch.restAccessURI + data.productPix + '?nocache=' + randVal);
+					
+					if(parseInt(data.onSale)){
+						$(GLOBAL_DATA.BLOCK_ROOT).find('.pz-price-box').html('<span class="fa fa-tags"></span>&nbsp;' + data.activeCurrency + ' ' + ajaxFetch.number_format(data.salePrice, 2, '.', "'"));
+						$(GLOBAL_DATA.BLOCK_ROOT).find('.pz-norm-price-box.pz-strike').text(data.activeCurrency + ' ' + ajaxFetch.number_format(data.normalPrice, 2, '.', "'"));
+					}else{
+						$(GLOBAL_DATA.BLOCK_ROOT).find('.pz-price-box').html(data.activeCurrency + ' ' + ajaxFetch.number_format(data.normalPrice, 2, '.', "'"));
+					}
 					
 				}
 			}).
@@ -210,7 +208,7 @@ export default {
 				console.log('The following error occurred: ' + textStatus, errorThrown);
 			});
 		});
-  
+		
 	}
 	
 }
